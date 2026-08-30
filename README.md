@@ -28,7 +28,7 @@ La salida siempre es JPEG.
 
 ## Ejecutar localmente
 
-No requiere build.
+No requiere build ni dependencias externas. El redimensionado, la creación del JPEG y la escritura del bloque EXIF se realizan con APIs nativas del navegador.
 
 Puedes abrir `index.html` directamente, aunque para evitar restricciones del navegador es preferible servir la carpeta con un servidor local:
 
