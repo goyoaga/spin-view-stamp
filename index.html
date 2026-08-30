@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Prepara una fotografía JPEG con un perfil EXIF compatible con Ray-Ban Meta para probar Spin View en Instagram. Todo se procesa localmente." />
+  <meta name="theme-color" content="#0b0d10" />
+  <title>Spin View Stamp</title>
+  <link rel="stylesheet" href="./style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/piexifjs@1.0.6/piexif.min.js"></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div class="eyebrow">Herramienta gratuita · procesamiento local</div>
+      <h1>Spin View Stamp</h1>
+      <p>Prepara una foto con identidad EXIF de <strong>Ray-Ban Meta Smart Glasses 2</strong> para probar el efecto Spin View de Instagram.</p>
+    </header>
+
+    <section class="card upload-card">
+      <label class="dropzone" id="dropzone" for="fileInput">
+        <input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" />
+        <span class="drop-icon">＋</span>
+        <strong>Suelta una foto aquí</strong>
+        <span>o toca para elegir una · JPEG, PNG o WebP</span>
+      </label>
+      <div id="previewWrap" class="preview-wrap hidden">
+        <img id="preview" alt="Vista previa de la imagen seleccionada" />
+      </div>
+    </section>
+
+    <section id="metadataCard" class="card metadata-card hidden" aria-live="polite">
+      <div class="meta-row"><span class="meta-label">Cámara</span><span class="meta-before" id="cameraBefore">sin datos</span><span class="arrow">→</span><span class="meta-after">Meta AI</span></div>
+      <div class="meta-row"><span class="meta-label">Modelo</span><span class="meta-before" id="modelBefore">sin datos</span><span class="arrow">→</span><span class="meta-after">Ray-Ban Meta Smart Glasses 2</span></div>
+      <div class="meta-row"><span class="meta-label">Medidas</span><span class="meta-before" id="sizeBefore">—</span><span class="arrow">→</span><span class="meta-after">3024 × 4032</span></div>
+      <div class="meta-row"><span class="meta-label">Ubicación</span><span class="meta-before" id="gpsBefore">no comprobada</span><span class="arrow">→</span><span class="meta-after">eliminada</span></div>
+    </section>
+
+    <section id="actionsCard" class="card actions-card hidden">
+      <div class="format-note"><strong>Salida recomendada</strong><span>3024 × 4032 · JPEG · recorte centrado 3:4</span></div>
+      <button id="generateBtn" class="primary-btn" type="button">Marcar y descargar</button>
+      <p id="status" class="status" role="status"></p>
+    </section>
+
+    <section class="card info-card">
+      <h2>Cómo usarla</h2>
+      <ol>
+        <li>Selecciona una imagen.</li>
+        <li>La herramienta la adapta a 3024 × 4032 y crea un JPEG nuevo.</li>
+        <li>Se escribe un EXIF limpio con la identidad de cámara Meta y sin GPS.</li>
+        <li>Guarda el JPEG final y súbelo a Instagram sin volver a editarlo.</li>
+      </ol>
+      <div class="privacy"><strong>Privacidad:</strong> tu imagen se procesa en este navegador. No se sube a ningún servidor.</div>
+      <p class="disclaimer">Esta herramienta no está afiliada a Meta ni a Ray-Ban. Instagram puede modificar en cualquier momento los criterios usados para activar Spin View, por lo que no se garantiza que el efecto esté disponible en todas las cuentas o versiones de la app.</p>
+    </section>
+
+    <footer><span>Spin View Stamp</span><span>Open source · sin backend</span></footer>
+  </main>
+  <script src="./app.js"></script>
+</body>
+</html>
