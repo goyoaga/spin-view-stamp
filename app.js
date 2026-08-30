@@ -251,6 +251,56 @@ function canvasToBlob(canvas) {
   });
 }
 
+function downloadBlob(blob, fileName) {
+  const downloadUrl = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = downloadUrl;
+  anchor.download = fileName;
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+  setTimeout(() => URL.revokeObjectURL(downloadUrl), 3000);
+}
+
+async function shareOrDownload(stampedBlob, fileName) {
+  if (
+    typeof File === "function" &&
+    typeof navigator.share === "function" &&
+    typeof navigator.canShare === "function"
+  ) {
+    const file = new File([stampedBlob], fileName, {
+      type: "image/jpeg",
+      lastModified: Date.now(),
+    });
+    const shareData = { files: [file], title: "Spin View image" };
+    let canShareFile = false;
+
+    try {
+      canShareFile = navigator.canShare({ files: [file] });
+    } catch {
+      canShareFile = false;
+    }
+
+    if (canShareFile) {
+      try {
+        setStatus("Imagen lista. Abriendo opciones para guardar…");
+        await navigator.share(shareData);
+        setStatus("✓ Imagen lista.");
+        return;
+      } catch (error) {
+        if (error?.name === "AbortError") {
+          setStatus("Imagen lista.");
+          return;
+        }
+        console.warn("No se pudo abrir la hoja de compartir. Se usará la descarga.", error);
+      }
+    }
+  }
+
+  downloadBlob(stampedBlob, fileName);
+  setStatus("✓ JPEG descargado. No lo edites antes de subirlo a Instagram.");
+}
+
 async function generateStampedImage() {
   if (!currentFile || !currentImage) return;
   generateBtn.disabled = true;
@@ -267,22 +317,14 @@ async function generateStampedImage() {
     drawCover(ctx, currentImage, TARGET_WIDTH, TARGET_HEIGHT);
     const jpegBlob = await canvasToBlob(canvas);
     const stampedBlob = await addExifToJpeg(jpegBlob);
-    const downloadUrl = URL.createObjectURL(stampedBlob);
-    const anchor = document.createElement("a");
     const baseName = currentFile.name.replace(/\.[^.]+$/, "") || "imagen";
-    anchor.href = downloadUrl;
-    anchor.download = `${baseName}-spin-view.jpg`;
-    document.body.appendChild(anchor);
-    anchor.click();
-    anchor.remove();
-    setTimeout(() => URL.revokeObjectURL(downloadUrl), 3000);
-    setStatus("✓ JPEG preparado. No lo edites antes de subirlo a Instagram.");
+    await shareOrDownload(stampedBlob, `${baseName}-spin-view.jpg`);
   } catch (error) {
     console.error(error);
     setStatus(error.message || "No se pudo generar la imagen.", true);
   } finally {
     generateBtn.disabled = false;
-    generateBtn.innerHTML = '<span aria-hidden="true">↓</span> Preparar y descargar';
+    generateBtn.innerHTML = '<span aria-hidden="true">↓</span> Preparar y guardar';
   }
 }
 

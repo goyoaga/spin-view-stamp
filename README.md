@@ -24,6 +24,8 @@ Herramienta web estática y gratuita para preparar una fotografía JPEG con un p
 
 La salida siempre es JPEG.
 
+En navegadores compatibles con compartir archivos, como Safari en iPhone y iPad, la aplicación abre la hoja nativa del sistema para poder elegir **Guardar imagen**, AirDrop u otro destino. Cuando Web Share API no está disponible, conserva la descarga tradicional del mismo JPEG final.
+
 > HEIC/HEIF no se incluye en esta primera versión para mantener el proyecto simple y sin procesamiento adicional.
 
 ## Ejecutar localmente
